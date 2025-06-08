@@ -1,4 +1,4 @@
-# Komnum_InterpolasiBessel
+# Interpolasi Bessel
 
 ---
 
