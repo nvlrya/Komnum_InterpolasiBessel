@@ -3,7 +3,8 @@
 
 Dokumen ini menjelaskan implementasi metode interpolasi Bessel menggunakan Python, terutama untuk menghitung nilai fungsi di sekitar titik tengah dua data yang diketahui. Metode ini cocok dipakai ketika data diskrit memiliki jarak yang sama dan kita ingin memperkirakan nilai antara dua titik.
 
-## Kode
+
+## Kode Lengkap Interpolasi Bessel
 
 ```python
 import math
