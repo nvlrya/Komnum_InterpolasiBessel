@@ -1,5 +1,12 @@
 # Komnum_InterpolasiBessel C04
 
+| Nama                          | NRP         |
+|-------------------------------|-------------|
+| Justin Valentino              | 5025241234  |
+| Al Jad Kaukabudduri Hardianto | 5025241248  |
+| Naufal Nararya                | 5025241251  |
+| Raymond Julius Pardosi        | 5025241268  |
+
 
 # Interpolasi Bessel dengan Python
 
@@ -10,7 +17,7 @@ Dokumen ini menjelaskan implementasi metode interpolasi Bessel menggunakan Pytho
 
 - Menghitung nilai pendekatan f(x) berdasarkan tabel data diskrit menggunakan metode Bessel.
 - Menyusun tabel selisih (Δ) hingga derajat ke-4.
-- Menghitung nilai interpolasi dan galat relatif terhadap nilai aktual (jika diketahui).
+- Menghitung nilai interpolasi dan Error True(ET).
 
 ---
 
@@ -182,5 +189,4 @@ print(f"ET= {error:.4f}%")
 
 
 ---
-
 
