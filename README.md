@@ -1,25 +1,89 @@
-# Interpolasi Bessel
+
+# Interpolasi Bessel dengan Python
+
+Dokumen ini menjelaskan implementasi metode interpolasi Bessel menggunakan Python, terutama untuk menghitung nilai fungsi di sekitar titik tengah dua data yang diketahui. Metode ini cocok dipakai ketika data diskrit memiliki jarak yang sama dan kita ingin memperkirakan nilai antara dua titik.
 
 ---
 
-## 📌 Interpolasi Bessel dengan Python
+## Tujuan Program
 
-Interpolasi Bessel adalah salah satu metode numerik untuk memperkirakan nilai fungsi pada titik-titik tertentu berdasarkan data yang diketahui. Metode ini sangat berguna ketika data disusun secara merata dan titik interpolasi berada di tengah dua titik data.
-
----
-
-## 🎯 Tujuan
-
-- Memberikan pemahaman praktis tentang cara kerja Interpolasi Bessel.
-- Memfasilitasi perhitungan nilai fungsi di titik tengah data dengan akurasi tinggi.
-- Menyediakan alat bantu untuk menghitung nilai pendekatan dan galat relatif menggunakan Python.
-- Menampilkan proses perhitungan secara bertahap, mulai dari tabel selisih hingga hasil akhir.
+- Menghitung nilai pendekatan f(x) berdasarkan tabel data diskrit menggunakan metode Bessel.
+- Menyusun tabel selisih (Δ) hingga derajat ke-4.
+- Menghitung nilai interpolasi dan galat relatif terhadap nilai aktual (jika diketahui).
 
 ---
 
-## 📊 Dataset
+## Struktur Program
 
-Data berupa pasangan nilai `x` dan `f(x)`, disimpan dalam bentuk dictionary:
+### 1. Import Library
+
+```python
+import math
+```
+
+Modul `math` disiapkan jika nantinya dibutuhkan fungsi matematika seperti akar atau faktorial.
+
+---
+
+### 2. Kelas `InterpolationSolver`
+
+Kelas ini menangani pembentukan tabel selisih dan menyediakan komponen-komponen delta yang dibutuhkan untuk rumus Bessel.
+
+#### a. Konstruktor
+
+```python
+class InterpolationSolver:
+    def __init__(self, data):
+        self.data = data
+        self.x_values = sorted(data.keys())
+        self.h = self.x_values[1] - self.x_values[0]
+        self.delta = self._calculate_delta()
+```
+
+#### b. Fungsi `_calculate_delta()`
+
+```python
+def _calculate_delta(self):
+    ...
+```
+
+Membentuk tabel delta menggunakan rumus rekursif hingga Δ⁴.
+
+#### c. Fungsi `Tabel_data()`
+
+```python
+def Tabel_data(self):
+    ...
+```
+
+Mencetak tabel berisi nilai x, f(x), Δf, Δ²f, Δ³f, dan Δ⁴f.
+
+#### d. Fungsi `Bessel_Delta(x0)`
+
+```python
+def Bessel_Delta(self, x0):
+    ...
+```
+
+Mengambil nilai delta yang dibutuhkan untuk rumus Bessel, termasuk rata-rata Δ² dan Δ⁴.
+
+---
+
+### 3. Fungsi `bessel_terms()`
+
+```python
+def bessel_terms(x, x0, h, f0, delta_f0, delta2_f, delta3_f_minus1, delta4_f0, f_actual):
+    ...
+```
+
+Menghitung nilai interpolasi Bessel dengan rumus:
+
+- f(x) = f₀ + sΔf₀ + [(s(s-1))/2]Δ²f_avg + ...
+- Termasuk galat relatif jika nilai sebenarnya (`f_actual`) diketahui.
+
+---
+
+## Contoh Penggunaan Program
 
 ```python
 data = {
@@ -33,60 +97,35 @@ data = {
     16: 1581088,
     18: 3044340
 }
+
+solver = InterpolationSolver(data)
+solver.Tabel_data()
+
+x = 11
+x0 = 10
+h = 2
+f0 = 74020
+f_actual = 154418
+
+delta_f0, avg_delta2_f, delta3_f_minus1, avg_delta4_f = solver.Bessel_Delta(x0)
+
+t1, t2, t3, t4, t5, result, error = bessel_terms(
+    x, x0, h, f0, delta_f0, avg_delta2_f, delta3_f_minus1, avg_delta4_f, f_actual
+)
+
+print(f"Interpolasi f({x}) = {result}")
+print(f"Galat relatif = {error:.4f}%")
 ```
 
 ---
 
-## 🧠 Struktur Program
+## Output
 
-### 🔹 `InterpolationSolver` (Class)
-Kelas utama yang menangani:
-- Penyimpanan dan pengurutan data.
-- Pembuatan tabel selisih hingga ordo ke-4 (Δ).
-- Penghitungan nilai-nilai yang dibutuhkan dalam rumus Bessel.
-
-### 🔹 Fungsi `bessel_terms(...)`
-Fungsi untuk:
-- Menghitung setiap suku dalam rumus Interpolasi Bessel.
-- Menjumlahkan semua suku untuk menghasilkan nilai pendekatan.
-- Menghitung galat relatif (jika nilai aktual tersedia).
+- Tabel selisih (dari Δ hingga Δ⁴)
+- Hasil pendekatan interpolasi f(x)
+- Galat relatif dibandingkan dengan nilai aktual
 
 ---
 
-## 🧮 Rumus Bessel
 
-Interpolasi Bessel menggunakan rumus berikut:
 
-```
-f(x) ≈ f₀ + sΔf₀ + [s(s−1)/2!] Δ²f_avg
-     + [s(s−1)(s−½)/3!] Δ³f_{−1}
-     + [s(s−1)(s−2)(s−3)/4!] Δ⁴f_avg
-```
-
-dengan:
-
-- `s = (x - x₀) / h`  
-- `h` = jarak antar titik data (diasumsikan konstan)  
-- `Δ` = operator selisih hingga  
-
----
-
-## 💡 Contoh Output Program
-
-Output yang ditampilkan mencakup:
-- Tabel data dengan selisih Δ hingga ordo ke-4.
-- Nilai `s` dan suku-suku interpolasi.
-- Nilai hasil pendekatan.
-- Galat relatif terhadap nilai aktual (jika diberikan).
-
----
-
-## 🛠️ Ketergantungan
-
-Program ini hanya menggunakan pustaka Python standar:
-
-```python
-import math
-```
-
----
